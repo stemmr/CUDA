@@ -7,13 +7,12 @@ from torch.utils.cpp_extension import load_inline
 def compile_extension():
     cuda_source = Path("setup_kernel.cu").read_text()
     cpp_source = "torch::Tensor setup_kernel_launch(torch::Tensor input);"
-
     # Load the CUDA kernel as a PyTorch extension
     setup_extension = load_inline(
         name="setup_extension",
         cpp_sources=cpp_source,
         cuda_sources=cuda_source,
-        functions=["setup"],
+        functions=["setup_kernel_launch"],  # Update this line
         with_cuda=True,
         extra_cuda_cflags=["-O2"],
         # build_directory='./cuda_build',
@@ -30,7 +29,9 @@ def main():
 
     input_data = torch.randn(1024, device="cuda")
 
-    output_data = ext.setup(input_data)
+    output_data = ext.setup_kernel_launch(input_data)
+
+    print(f"Multiplying {input_data[0]} by two equals {output_data[0]}")
 
 
 if __name__ == "__main__":

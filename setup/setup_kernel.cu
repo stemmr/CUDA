@@ -16,6 +16,6 @@ torch::Tensor setup_kernel_launch(torch::Tensor input) {
     return output;
 }
 
-PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
-    m.def("setup_kernel_launch", &setup_kernel_launch, "Setup kernel launch function");
-}
+// PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
+//     m.def("setup_kernel_launch", &setup_kernel_launch, "Setup kernel launch function");
+// }
